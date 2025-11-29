@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +27,10 @@ import { useOpenDialog } from "~/composables/useOpenDialog";
 import { useAlternativesApi } from "~/composables/useAlternativesApi";
 import { useCategoriesApi } from "~/composables/useCategoriesApi";
 import { useToolsApi } from "~/composables/useToolsApi";
+
+definePageMeta({
+  layout: "admin",
+});
 
 const { openDialog, closeDialog } = useOpenDialog();
 const { getAlternatives } = useAlternativesApi();
@@ -105,15 +109,6 @@ const categoriesTotal = ref(0);
 const categoriesSearchQuery = ref("");
 const alternativeFormRef = ref(null);
 const categoryFormRef = ref(null);
-
-const { startUpload } = useUploadThing("imageUploader", {
-  onClientUploadComplete(res) {
-    console.log("Upload complete:", res);
-  },
-  onUploadError(error) {
-    console.log("Upload error:", error);
-  },
-});
 
 const uploadImageFile = async () => {
   if (formState.imageFile) {
@@ -421,8 +416,8 @@ await fetchCategories();
                     loading
                       ? 'Loading alternatives...'
                       : !hasAlternatives
-                      ? 'No alternatives available'
-                      : 'Select an alternative'
+                        ? 'No alternatives available'
+                        : 'Select an alternative'
                   "
                 />
               </SelectTrigger>
@@ -467,8 +462,8 @@ await fetchCategories();
                     categoryState.loading
                       ? 'Loading categories...'
                       : !hasCategories
-                      ? 'No categories available'
-                      : 'Select categories'
+                        ? 'No categories available'
+                        : 'Select categories'
                   "
                 />
               </SelectTrigger>

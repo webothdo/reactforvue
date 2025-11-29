@@ -1,4 +1,6 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { Button } from "@/components/ui/button";
+</script>
 
 <template>
   <div>
@@ -13,11 +15,11 @@
         </p>
       </div>
       <p class="text-zinc-600 text-xs">Join thousands of vuejs developers</p>
-      <UButton asChild variant="outline" class="rounded-lg py-0">
+      <Button asChild variant="outline" class="rounded-lg py-0">
         <NuxtLink to="https://reactforvue.beehiiv.com/subscribe" target="_blank"
           >Join Our Newsletter</NuxtLink
         >
-      </UButton>
+      </Button>
     </main>
     <ToolListComp />
   </div>

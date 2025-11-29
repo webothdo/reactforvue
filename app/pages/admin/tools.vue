@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import { useToolsApi } from "@/composables/useToolsApi";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

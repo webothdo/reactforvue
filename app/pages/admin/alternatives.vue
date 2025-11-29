@@ -1,6 +1,8 @@
-<script setup>
+<script setup lang="ts">
 import { ref, computed, onMounted, watch } from "vue";
 import { useAlternativesApi } from "@/composables/useAlternativesApi";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 
 const formData = ref({
   name: "",
@@ -185,27 +187,27 @@ const canSubmit = computed(() => {
       <div class="space-y-4">
         <div>
           <label class="block text-sm font-medium mb-1">Name</label>
-          <UInput v-model="formData.name" placeholder="Name" />
+          <Input v-model="formData.name" placeholder="Name" />
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Slug</label>
-          <UInput v-model="formData.slug" placeholder="Slug" />
+          <Input v-model="formData.slug" placeholder="Slug" />
         </div>
         <div>
           <label class="block text-sm font-medium mb-1">Website URL</label>
-          <UInput v-model="formData.websiteUrl" placeholder="Website URL" />
+          <Input v-model="formData.websiteUrl" placeholder="Website URL" />
         </div>
 
         <div>
           <label class="block text-sm font-medium mb-1">Image</label>
           <div class="flex items-center space-x-4">
-            <UInput
+            <Input
               type="file"
               accept="image/*"
               @change="handleFileChange"
               class="flex-1"
             />
-            <UButton
+            <Button
               v-if="imageFile"
               variant="outline"
               size="sm"
@@ -215,7 +217,7 @@ const canSubmit = computed(() => {
               "
             >
               Clear
-            </UButton>
+            </Button>
           </div>
           <p v-if="uploadError" class="text-red-500 text-sm mt-1">
             {{ uploadError }}
@@ -234,20 +236,20 @@ const canSubmit = computed(() => {
     </div>
 
     <div class="mt-6 flex items-center space-x-4">
-      <UButton
+      <Button
         @click="saveData"
         :disabled="!canSubmit"
         :class="{ 'opacity-50 cursor-not-allowed': !canSubmit }"
       >
         <span v-if="isUploading">Uploading...</span>
         <span v-else>Save Alternative</span>
-      </UButton>
-      <UButton variant="outline" @click="resetForm">Reset</UButton>
+      </Button>
+      <Button variant="outline" @click="resetForm">Reset</Button>
     </div>
   </div>
   <div class="mt-10">
     <div class="mb-4 flex items-center gap-2">
-      <UInput
+      <Input
         v-model="searchQuery"
         type="text"
         placeholder="Search alternatives..."
@@ -316,22 +318,22 @@ const canSubmit = computed(() => {
                 class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
               >
                 <div class="flex justify-end gap-2">
-                  <UButton
+                  <Button
                     size="sm"
                     variant="outline"
                     class="h-8 px-3"
                     @click="startEdit(alt)"
                   >
                     Edit
-                  </UButton>
-                  <UButton
+                  </Button>
+                  <Button
                     size="sm"
                     variant="destructive"
                     class="h-8 px-3"
                     @click="handleDelete(alt.id)"
                   >
                     Delete
-                  </UButton>
+                  </Button>
                 </div>
               </td>
             </tr>
@@ -345,17 +347,17 @@ const canSubmit = computed(() => {
         total)
       </div>
       <div class="flex gap-2">
-        <UButton
+        <Button
           size="sm"
           :disabled="page === 1"
           @click="handlePageChange(page - 1)"
-          >Prev</UButton
+          >Prev</Button
         >
-        <UButton
+        <Button
           size="sm"
           :disabled="page >= Math.ceil(total / pageSize)"
           @click="handlePageChange(page + 1)"
-          >Next</UButton
+          >Next</Button
         >
       </div>
     </div>

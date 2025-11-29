@@ -1,5 +1,6 @@
-<script setup>
+<script setup lang="ts">
 import { LucideArrowRight } from "lucide-vue-next";
+import { Button } from "@/components/ui/button";
 
 const route = useRoute();
 const alternative = ref({});
@@ -38,7 +39,7 @@ if (data.value) {
         {{ data.data?.description }}
       </p>
       <div class="flex flex-col gap-2">
-        <UButton
+        <Button
           asChild
           class="bg-zinc-100 text-zinc-950 w-fit border border-zinc-600 px-5 py-3 h-0 text-sm"
         >
@@ -48,7 +49,7 @@ if (data.value) {
             >Visit
             <LucideArrowRight />
           </NuxtLink>
-        </UButton>
+        </Button>
         <div
           class="h-[250px] w-full rounded-lg overflow-hidden border border-zinc-600"
         >

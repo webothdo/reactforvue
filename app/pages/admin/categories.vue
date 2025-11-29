@@ -1,5 +1,5 @@
-<script setup>
-definePageMeta({ layout: 'admin' });
+<script setup lang="ts">
+definePageMeta({ layout: "admin" });
 import { ref, computed, onMounted, watch } from "vue";
 import { useCategoriesApi } from "@/composables/useCategoriesApi";
 import { Button } from "@/components/ui/button";
@@ -156,41 +156,57 @@ onMounted(fetchCategories);
           <div class="relative w-full overflow-auto">
             <table class="w-full caption-bottom text-sm">
               <thead class="[&_tr]:border-b">
-                <tr class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                <tr
+                  class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
+                >
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                  >
                     Name
                   </th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                  >
                     Slug
                   </th>
-                  <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  <th
+                    class="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                  >
                     Label
                   </th>
-                  <th class="h-12 px-4 text-right align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  <th
+                    class="h-12 px-4 text-right align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0"
+                  >
                     Actions
                   </th>
                 </tr>
               </thead>
               <tbody class="[&_tr:last-child]:border-0">
-                <tr 
-                  v-for="cat in categories" 
+                <tr
+                  v-for="cat in categories"
                   :key="cat.id"
                   class="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted"
                 >
-                  <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium">
+                  <td
+                    class="p-4 align-middle [&:has([role=checkbox])]:pr-0 font-medium"
+                  >
                     {{ cat.name }}
                   </td>
-                  <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-muted-foreground">
+                  <td
+                    class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-muted-foreground"
+                  >
                     {{ cat.slug }}
                   </td>
                   <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0">
                     {{ cat.label }}
                   </td>
-                  <td class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right">
+                  <td
+                    class="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-right"
+                  >
                     <div class="flex justify-end gap-2">
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
+                      <Button
+                        size="sm"
+                        variant="outline"
                         class="h-8 px-3"
                         @click="startEdit(cat)"
                       >
