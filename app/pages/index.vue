@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Button } from "@/components/ui/button";
+import ToolListComp from "@/components/ToolListComp.vue";
 </script>
 
 <template>

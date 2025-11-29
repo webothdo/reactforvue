@@ -1,30 +1,38 @@
 <script setup>
 import { Button } from "@/components/ui/button";
 
+const { getAlternatives } = useAlternativesApi();
+
 const route = useRoute();
 
 const page = computed(() => Number(route.query.page) || 1);
+const pageSize = ref(10);
 const offset = computed(() => (page.value - 1) * 10);
+
+// const { data: tools, status } = await useAsyncData(
+//   "tools",
+//   () =>
+//     $fetch("/api/get-tools", {
+//       params: {
+//         page: page.value,
+//       },
+//     }),
+//   {
+//     watch: [() => page.value],
+//   }
+// );
 
 const {
   data: tools,
   error,
   status,
-} = await useAsyncData(
-  "tools",
-  () =>
-    $fetch("/api/get-tools", {
-      params: {
-        page: page.value,
-      },
-    }),
-  {
-    watch: [() => page.value],
-  }
-);
+} = await getAlternatives({
+  page: page.value,
+  limit: pageSize.value,
+});
 
 const totalPages = computed(() => {
-  return Math.ceil(tools.value?.total / 10);
+  return Math.ceil(tools.value?.total / pageSize.value);
 });
 
 const nextPage = computed(() => {
@@ -75,7 +83,8 @@ const useTruncate = (text, length = 100) => {
           <p>{{ tools.name }}</p>
         </div>
         <p class="text-zinc-400 text-sm">
-          {{ useTruncate(tools.description, 50) }}
+          <!-- {{ useTruncate(tools.description, 50) }} -->
+          {{ tools }}
         </p>
       </NuxtLink>
       <div class="flex gap-3 justify-between items-center">
