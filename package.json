@@ -30,7 +30,7 @@
     "imagekit": "^6.0.0",
     "lucide-vue-next": "^0.555.0",
     "nanoid": "^5.1.5",
-    "nuxt": "^4.1.3",
+    "nuxt": "^4.2.1",
     "reka-ui": "^2.6.0",
     "screenshotone-api-sdk": "^1.1.21",
     "shadcn-nuxt": "2.3.3",
