@@ -49,7 +49,7 @@ const handleScreenshot = async () => {
   isScreenshotLoading.value = true;
   uploadError.value = null;
   try {
-    const { data, error } = await useFetch("/api/screenshot", {
+    const { data, error } = await useFetch("/api/media/screenshot", {
       method: "POST",
       body: { url: urlInput.value },
     });

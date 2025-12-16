@@ -33,7 +33,7 @@ const uploadImage = async () => {
     const formData = new FormData();
     formData.append("image", imageFile.value);
 
-    const { data, error } = await useFetch("/api/upload", {
+    const { data, error } = await useFetch("/api/media/upload", {
       method: "POST",
       body: formData,
     });

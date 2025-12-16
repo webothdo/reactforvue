@@ -70,7 +70,7 @@ const createAlternative = async () => {
 
   loading.value = true;
   try {
-    const { data, error } = await useFetch("/api/create-alternative", {
+    const { data, error } = await useFetch("/api/alternatives", {
       method: "POST",
       body: alternativeForm.values,
     });

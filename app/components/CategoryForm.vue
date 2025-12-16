@@ -70,7 +70,7 @@ const createCategory = async () => {
 
   loading.value = true;
   try {
-    const { data, error } = await useFetch("/api/create-category", {
+    const { data, error } = await useFetch("/api/categories", {
       method: "POST",
       body: categoryForm.values,
     });
