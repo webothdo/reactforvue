@@ -11,16 +11,16 @@ const formData = ref({
   label: "",
 });
 
-const categories = ref([]);
+const categories = ref<any[]>([]);
 const editingId = ref(null);
 const isLoading = ref(false);
-const errorMsg = ref(null);
+const errorMsg = ref<string | null>(null);
 const page = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
 const searchQuery = ref("");
 const searchLoading = ref(false);
-let searchTimeout = null;
+let searchTimeout: NodeJS.Timeout | null = null;
 
 const { createCategory, updateCategory, deleteCategory, getCategories } =
   useCategoriesApi();
@@ -55,7 +55,7 @@ watch(searchQuery, (val, oldVal) => {
   }
 });
 
-const handlePageChange = async (newPage) => {
+const handlePageChange = async (newPage: number) => {
   page.value = newPage;
   await fetchCategories();
 };
@@ -78,12 +78,12 @@ const saveData = async () => {
   }
 };
 
-const startEdit = (cat) => {
+const startEdit = (cat: any) => {
   editingId.value = cat.id;
   formData.value = { ...cat };
 };
 
-const handleDelete = async (id) => {
+const handleDelete = async (id: string) => {
   if (!confirm("Are you sure you want to delete this category?")) return;
   const { error } = await deleteCategory(id);
   if (!error || !error.value) {

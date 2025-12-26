@@ -11,8 +11,8 @@ const formData = ref({
   imageUrl: "",
 });
 
-const alternatives = ref([]);
-const editingId = ref(null);
+const alternatives = ref<any[]>([]);
+const editingId = ref<string | null>(null);
 const searchQuery = ref("");
 const searchLoading = ref(false);
 const page = ref(1);
@@ -25,14 +25,14 @@ const {
   getAlternatives,
 } = useAlternativesApi();
 
-const imageFile = ref(null);
-const imagePreview = ref(null);
+const imageFile = ref<File | null>(null);
+const imagePreview = ref<string | null>(null);
 const isUploading = ref(false);
-const uploadError = ref(null);
+const uploadError = ref<string | null>(null);
 
 // Handle file selection
-const handleFileChange = (event) => {
-  const file = event.target.files[0];
+const handleFileChange = (event: Event) => {
+  const file = (event.target as HTMLInputElement).files?.[0];
   if (!file) return;
 
   imageFile.value = file;
@@ -40,7 +40,9 @@ const handleFileChange = (event) => {
   // Create preview URLs
   const reader = new FileReader();
   reader.onload = (e) => {
-    imagePreview.value = e.target.result;
+    if (e.target?.result && typeof e.target.result === "string") {
+      imagePreview.value = e.target.result;
+    }
   };
   reader.readAsDataURL(file);
 };
@@ -71,7 +73,8 @@ const uploadImage = async () => {
       return data.value.imageUrl;
     }
   } catch (err) {
-    uploadError.value = err.message || "An unexpected error occurred";
+    uploadError.value =
+      (err as Error).message || "An unexpected error occurred";
     console.error("Exception during image upload:", err);
   } finally {
     isUploading.value = false;
@@ -126,7 +129,7 @@ const fetchAlternatives = async () => {
   }
   if (data && data.value) {
     alternatives.value = data.value.data || [];
-    total.value = data.value.total || 0;
+    total.value = (data.value as any).total || 0;
   }
 };
 
@@ -135,7 +138,7 @@ const performSearch = async () => {
   await fetchAlternatives();
 };
 
-let searchTimeout;
+let searchTimeout: NodeJS.Timeout | null = null;
 watch(searchQuery, (val, oldVal) => {
   if (val !== oldVal) {
     if (searchTimeout) clearTimeout(searchTimeout);
@@ -143,18 +146,18 @@ watch(searchQuery, (val, oldVal) => {
   }
 });
 
-const handlePageChange = async (newPage) => {
+const handlePageChange = async (newPage: number) => {
   page.value = newPage;
   await fetchAlternatives();
 };
 
-const startEdit = (alt) => {
+const startEdit = (alt: any) => {
   editingId.value = alt.id;
   formData.value = { ...alt };
   imagePreview.value = alt.imageUrl || null;
 };
 
-const handleDelete = async (id) => {
+const handleDelete = async (id: string) => {
   if (!confirm("Are you sure you want to delete this alternative?")) return;
   const { error } = await deleteAlternative(id);
   if (!error || !error.value) {
