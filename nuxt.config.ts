@@ -13,4 +13,8 @@ export default defineNuxtConfig({
   vite: {
     plugins: [tailwindcss()],
   },
+  runtimeConfig: {
+    openRouterApiKey: process.env.OPENROUTER_API_KEY,
+    jinaApiKey: process.env.JINA_API_KEY,
+  },
 });

@@ -10,8 +10,10 @@
     "postinstall": "nuxt prepare"
   },
   "dependencies": {
+    "@ai-sdk/vue": "^3.0.3",
     "@libsql/client": "^0.15.15",
     "@nuxt/content": "3.7.1",
+    "@openrouter/ai-sdk-provider": "^1.5.4",
     "@tanstack/vue-table": "^8.21.3",
     "@tiptap/extension-placeholder": "^2.27.1",
     "@tiptap/pm": "^2.27.1",
@@ -20,6 +22,7 @@
     "@tiptap/vue-3": "^2.27.1",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^14.1.0",
+    "ai": "^6.0.3",
     "better-sqlite3": "^12.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
@@ -42,7 +45,7 @@
     "vue-input-otp": "^0.3.2",
     "vue-router": "^4.6.4",
     "vue-sonner": "^2.0.9",
-    "zod": "3.25.76"
+    "zod": "^4.2.1"
   },
   "devDependencies": {
     "@tailwindcss/typography": "^0.5.19",
