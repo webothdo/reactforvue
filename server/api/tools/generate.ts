@@ -1,6 +1,16 @@
-import { streamText, UIMessage, convertToModelMessages } from "ai";
+import { streamText, UIMessage, convertToModelMessages, Output } from "ai";
 
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
+import { z } from "zod";
+
+type JinaResponse = {
+  data: {
+    title: string;
+    description: string;
+    url: string;
+    content: string;
+  };
+};
 
 export default defineLazyEventHandler(async () => {
   const apiKey = useRuntimeConfig().openRouterApiKey;
@@ -21,7 +31,7 @@ export default defineLazyEventHandler(async () => {
     }
 
     //scrape website url content
-    const scrapedData = await $fetch("https://r.jina.ai", {
+    const scrapedData = await $fetch<JinaResponse>("https://r.jina.ai", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -41,7 +51,42 @@ export default defineLazyEventHandler(async () => {
       Your task is to generate high quality, engaging content to display on a directory website.
       You do not use any catchphrases or marketing speak like "best" or "top", "Empower", "Unleash", "Revolutionize", "Streamline" etc.
       `,
-      prompt: "",
+      prompt: `
+      Provide me details  for the following data: 
+      Title: ${scrapedData.data.title}
+      Description: ${scrapedData.data.description}
+      Content: ${scrapedData.data.content}
+      `,
+      output: Output.object({
+        schema: z.object({
+          tagline: z
+            .string()
+            .describe(
+              "A compelling tagline (max 60 char) that captures the tool's unique value proposition. Avoid tool name, focus on benefits."
+            ),
+          description: z
+            .string()
+            .describe(
+              "A consice meta description (max 160 chars) highlighting key features and benefits. Use active voice, and avoid tool name"
+            ),
+          content: z
+            .string()
+            .describe(
+              "A detailed and engaging longer description with key benefits (up to 1000 chars). Should be markdown formatted, should start with paragraph, and not use headings. Highlight important points with bold text. Make sure the lists use correct Markdown syntax and are properly formatted. End with a brief conclusion paragraph."
+            ),
+        }),
+      }),
+      onError: (error) => {
+        console.error(error);
+        throw createError({
+          statusCode: 500,
+          statusMessage:
+            (error.error as any)?.message ||
+            (error as any)?.message ||
+            JSON.stringify(error) ||
+            "Failed to generate content",
+        });
+      },
     });
 
     return result.toUIMessageStreamResponse();
