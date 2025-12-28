@@ -14,6 +14,7 @@ type JinaResponse = {
 
 export default defineLazyEventHandler(async () => {
   const apiKey = useRuntimeConfig().openRouterApiKey;
+  console.log(apiKey);
   const jinaApiKey = useRuntimeConfig().jinaApiKey;
   if (!apiKey) throw new Error("Missing AI Gateway API key");
   const openrouter = createOpenRouter({
@@ -29,6 +30,8 @@ export default defineLazyEventHandler(async () => {
         statusMessage: "Missing URL",
       });
     }
+
+    //TODO: change scraper
 
     //scrape website url content
     const scrapedData = await $fetch<JinaResponse>("https://r.jina.ai", {

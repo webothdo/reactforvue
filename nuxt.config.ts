@@ -14,7 +14,9 @@ export default defineNuxtConfig({
     plugins: [tailwindcss()],
   },
   runtimeConfig: {
-    openRouterApiKey: process.env.OPENROUTER_API_KEY,
-    jinaApiKey: process.env.JINA_API_KEY,
+    openRouterApiKey: process.env.NUXT_OPENROUTER_API_KEY,
+    jinaApiKey: process.env.NUXT_JINA_API_KEY,
+    screenshotoneAccessKey: process.env.NUXT_SCREENSHOTONE_ACCESS_KEY,
+    screenshotoneSecretKey: process.env.NUXT_SCREENSHOTONE_SECRET_KEY,
   },
 });

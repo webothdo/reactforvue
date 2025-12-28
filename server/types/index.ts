@@ -79,6 +79,7 @@ export interface Tool {
   name: string;
   slug: string;
   websiteUrl: string;
+  tagline?: string | null;
   description?: string | null;
   content?: string | null;
   screenshotUrl?: string | null;
@@ -97,6 +98,8 @@ export interface CreateToolInput {
   name: string;
   slug: string;
   websiteUrl: string;
+  tagline?: string;
+  faviconUrl?: string;
   description?: string;
   content?: string;
   screenshotUrl?: string;
@@ -112,6 +115,8 @@ export interface UpdateToolInput {
   name?: string;
   slug?: string;
   websiteUrl?: string;
+  tagline?: string;
+  faviconUrl?: string;
   description?: string;
   content?: string;
   screenshotUrl?: string;
