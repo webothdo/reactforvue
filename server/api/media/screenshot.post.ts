@@ -6,6 +6,7 @@
 import { nanoid } from "nanoid";
 import * as screenshotone from "screenshotone-api-sdk";
 import { imagekit } from "~~/server/lib/imagekit";
+import { insertImage } from "~~/server/utils/insert";
 
 const apiKey = useRuntimeConfig().screenshotoneAccessKey;
 const apiSecret = useRuntimeConfig().screenshotoneSecretKey;
@@ -18,6 +19,9 @@ export default defineEventHandler(async (event) => {
       statusMessage: "Missing URL",
     });
   }
+
+  const domain = new URL(url).hostname;
+
   const client = new screenshotone.Client(apiKey, apiSecret);
 
   const options = screenshotone.TakeOptions.url(url)
@@ -45,8 +49,19 @@ export default defineEventHandler(async (event) => {
     folder: "reactforvue",
   });
 
+  // Create image record in database
+  const newImage = await insertImage({
+    url: fileData.url,
+    thumbnailUrl: fileData.thumbnailUrl,
+    fileId: fileData.fileId,
+    filename: fileData.name,
+    originalName: `${domain}-screenshot`,
+    size: fileData.size,
+    mimeType: fileData.fileType,
+  });
+
   return {
     success: true,
-    url: fileData.url,
+    url: newImage.url,
   };
 });

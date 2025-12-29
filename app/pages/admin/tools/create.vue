@@ -251,6 +251,7 @@ const saveTool = async () => {
                   v-for="category in categories?.data"
                   :key="category.id"
                   :value="category.id"
+                  :text-value="category.name"
                 >
                   {{ category.name }}
                 </SelectItem>

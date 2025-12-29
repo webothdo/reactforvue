@@ -12,6 +12,7 @@
   "dependencies": {
     "@ai-sdk/vue": "^3.0.3",
     "@libsql/client": "^0.15.15",
+    "@mendable/firecrawl-js": "^4.10.0",
     "@nuxt/content": "3.7.1",
     "@openrouter/ai-sdk-provider": "^1.5.4",
     "@tanstack/vue-table": "^8.21.3",

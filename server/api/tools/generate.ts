@@ -2,24 +2,19 @@ import { streamText, UIMessage, convertToModelMessages, Output } from "ai";
 
 import { createOpenRouter } from "@openrouter/ai-sdk-provider";
 import { z } from "zod";
-
-type JinaResponse = {
-  data: {
-    title: string;
-    description: string;
-    url: string;
-    content: string;
-  };
-};
+import Firecrawl from "@mendable/firecrawl-js";
 
 export default defineLazyEventHandler(async () => {
   const apiKey = useRuntimeConfig().openRouterApiKey;
-  console.log(apiKey);
-  const jinaApiKey = useRuntimeConfig().jinaApiKey;
+  const firecrawlApiKey = useRuntimeConfig().firecrawlApiKey;
   if (!apiKey) throw new Error("Missing AI Gateway API key");
+  if (!firecrawlApiKey) throw new Error("Missing Firecrawl API key");
+
   const openrouter = createOpenRouter({
     apiKey: apiKey,
   });
+
+  const firecrawl = new Firecrawl({ apiKey: firecrawlApiKey });
 
   return defineEventHandler(async (event: any) => {
     const { url } = await readBody(event);
@@ -31,21 +26,20 @@ export default defineLazyEventHandler(async () => {
       });
     }
 
-    //TODO: change scraper
-
-    //scrape website url content
-    const scrapedData = await $fetch<JinaResponse>("https://r.jina.ai", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        Authorization: `Bearer ${jinaApiKey}`,
-        "X-Engine": "cf-browser-rendering",
-        "X-Remove-Selector": "img, video, iframe, a",
-        "X-Retain-Images": "none",
-        "X-Return-Format": "markdown",
-      },
-      body: JSON.stringify({ url }),
-    });
+    // Scrape website content using Firecrawl
+    let scrapedData;
+    try {
+      scrapedData = await firecrawl.scrape(url, {
+        formats: ["markdown"],
+        onlyMainContent: true,
+        excludeTags: ["img", "video", "iframe"],
+      });
+    } catch (error: any) {
+      throw createError({
+        statusCode: 500,
+        statusMessage: error?.message || "Failed to scrape URL",
+      });
+    }
 
     const result = streamText({
       model: openrouter("mistralai/devstral-2512:free"),
@@ -56,9 +50,9 @@ export default defineLazyEventHandler(async () => {
       `,
       prompt: `
       Provide me details  for the following data: 
-      Title: ${scrapedData.data.title}
-      Description: ${scrapedData.data.description}
-      Content: ${scrapedData.data.content}
+      Title: ${scrapedData.metadata?.title || ""}
+      Description: ${scrapedData.metadata?.description || ""}
+      Content: ${scrapedData.markdown || ""}
       `,
       output: Output.object({
         schema: z.object({

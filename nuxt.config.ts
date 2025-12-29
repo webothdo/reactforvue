@@ -15,7 +15,7 @@ export default defineNuxtConfig({
   },
   runtimeConfig: {
     openRouterApiKey: process.env.NUXT_OPENROUTER_API_KEY,
-    jinaApiKey: process.env.NUXT_JINA_API_KEY,
+    firecrawlApiKey: process.env.NUXT_FIRECRAWL_API_KEY,
     screenshotoneAccessKey: process.env.NUXT_SCREENSHOTONE_ACCESS_KEY,
     screenshotoneSecretKey: process.env.NUXT_SCREENSHOTONE_SECRET_KEY,
   },
