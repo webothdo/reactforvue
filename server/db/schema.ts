@@ -18,6 +18,7 @@ export const account = sqliteTable("account", {
   name: text().notNull(),
   email: text().notNull(),
   image: text(),
+  role: text().default("user").notNull(),
   createdAt: integer({ mode: "timestamp" }).$defaultFn(
     () => sql`CURRENT_TIMESTAMP`
   ),

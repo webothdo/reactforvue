@@ -8,6 +8,7 @@
     <div class="flex items-center gap-1">
       <HamburgerMenu />
       <ColorModeComp />
+      <UserButton />
     </div>
   </div>
 </template>
