@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     prefix: "",
     componentDir: "@/components/ui",
   },
+  clerk: {
+    skipServerMiddleware: true,
+  },
   vite: {
     plugins: [tailwindcss()],
   },
