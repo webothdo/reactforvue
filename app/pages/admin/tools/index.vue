@@ -12,16 +12,16 @@ const formData = ref({
   screenshotUrl: "",
 });
 
-const tools = ref([]);
-const editingId = ref(null);
+const tools = ref<any[]>([]);
+const editingId = ref<string | null>(null);
 const isLoading = ref(false);
-const errorMsg = ref(null);
+const errorMsg = ref<string | null>(null);
 const page = ref(1);
 const pageSize = ref(10);
 const total = ref(0);
 const searchQuery = ref("");
 const searchLoading = ref(false);
-let searchTimeout = null;
+let searchTimeout: NodeJS.Timeout | null = null;
 
 const { createTool, updateTool, deleteTool, getTools } = useToolsApi();
 
@@ -38,9 +38,9 @@ const fetchTools = async () => {
     total.value = 0;
   } else if (data && data.value) {
     console.log("API Data:", data.value);
-    tools.value = data.value.data || [];
+    tools.value = (data.value as any).data || [];
     console.log("Tools after assignment:", tools.value);
-    total.value = data.value.total || 0;
+    total.value = (data.value as any).total || 0;
     errorMsg.value = null;
   }
   isLoading.value = false;
@@ -56,7 +56,7 @@ watch(searchQuery, (val, oldVal) => {
   }
 });
 
-const handlePageChange = async (newPage) => {
+const handlePageChange = async (newPage: number) => {
   page.value = newPage;
   await fetchTools();
 };
@@ -83,12 +83,12 @@ const saveData = async () => {
   }
 };
 
-const startEdit = (tool) => {
+const startEdit = (tool: any) => {
   editingId.value = tool.id;
   formData.value = { ...tool };
 };
 
-const handleDelete = async (id) => {
+const handleDelete = async (id: string) => {
   if (!confirm("Are you sure you want to delete this tool?")) return;
   const { error } = await deleteTool(id);
   if (!error || !error.value) {

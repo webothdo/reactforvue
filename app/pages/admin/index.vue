@@ -63,7 +63,15 @@ const formSchema = toTypedSchema(
 );
 
 // Main form initialization
-const mainForm = useForm({
+const mainForm = useForm<{
+  name: string;
+  slug: string;
+  websiteUrl: string;
+  submitterName?: string;
+  submitterEmail?: string;
+  description?: string;
+  content?: string;
+}>({
   validationSchema: formSchema,
   initialValues: {
     name: "",
@@ -79,22 +87,22 @@ const mainForm = useForm({
 const formState = reactive({
   isSubmitting: false,
   isSubmitted: false,
-  submitError: null,
+  submitError: null as string | null,
   imageUrl: "", // This will store the URL for display purposes, but we'll send it as screenshotUrl
-  imageFile: null,
+  imageFile: null as File | null,
   isUploading: false,
-  uploadError: null,
+  uploadError: null as string | null,
   uploadSuccess: false,
 });
 
-const alternatives = ref([]);
-const categories = ref([]);
-const selectedAlternative = ref(null);
-const selectedCategory = ref(null);
+const alternatives = ref<any[]>([]);
+const categories = ref<any[]>([]);
+const selectedAlternative = ref<any | null>(null);
+const selectedCategory = ref<any | null>(null);
 const loading = ref(false);
 const categoryState = reactive({
   loading: false,
-  error: null,
+  error: null as any,
 });
 
 // Pagination and search state
@@ -107,8 +115,8 @@ const categoriesPage = ref(1);
 const categoriesPageSize = ref(50); // Higher limit for dropdowns
 const categoriesTotal = ref(0);
 const categoriesSearchQuery = ref("");
-const alternativeFormRef = ref(null);
-const categoryFormRef = ref(null);
+const alternativeFormRef = ref<any | null>(null);
+const categoryFormRef = ref<any | null>(null);
 
 const uploadImageFile = async () => {
   if (formState.imageFile) {
@@ -119,7 +127,28 @@ const uploadImageFile = async () => {
         type: formState.imageFile.type,
       }
     );
-    formState.imageFile = await startUpload([renamedImageFile]);
+
+    try {
+      const formData = new FormData();
+      formData.append("image", renamedImageFile);
+
+      const { data, error } = await useFetch("/api/media/upload", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (error && error.value) {
+        formState.uploadError = error.value.message || "Failed to upload image";
+        return;
+      }
+
+      if (data && data.value) {
+        formState.imageUrl = data.value.url || "";
+      }
+    } catch (err) {
+      formState.uploadError =
+        (err as Error).message || "An unexpected error occurred";
+    }
   }
 };
 
@@ -164,7 +193,8 @@ const saveData = async () => {
       }, 2000);
     }
   } catch (error) {
-    formState.submitError = error.message || "An unexpected error occurred";
+    formState.submitError =
+      (error as Error).message || "An unexpected error occurred";
     console.error("Error saving tool:", error);
     // Clear error after 2 seconds
     setTimeout(() => {
@@ -235,7 +265,7 @@ const generateMainSlug = () => {
 };
 
 // Handle image selection
-const handleImageSelect = (image) => {
+const handleImageSelect = (image: any) => {
   console.log("Image selected:", image);
   closeDialog();
   formState.imageFile = image.fileId;
@@ -247,9 +277,6 @@ const removeImage = () => {
   formState.imageUrl = "";
   formState.imageFile = null;
   formState.uploadSuccess = false;
-  if (fileInputRef.value) {
-    fileInputRef.value.value = "";
-  }
 };
 
 const hasAlternatives = computed(() => alternatives.value.length > 0);

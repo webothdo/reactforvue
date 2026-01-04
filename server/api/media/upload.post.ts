@@ -1,7 +1,7 @@
 import { nanoid } from "nanoid";
 import { readMultipartFormData } from "#imports";
-import { imagekit } from "../lib/imagekit";
-import { insertImage } from "../utils/insert";
+import { imagekit } from "../../lib/imagekit";
+import { insertImage } from "../../utils/insert";
 
 // Supported image MIME types
 const SUPPORTED_MIME_TYPES = [
@@ -35,7 +35,7 @@ export default defineEventHandler(async (event) => {
         body: { error: "No form data provided" },
       };
     }
-    console.log("formdata", formData);
+
     // Find the image file in the form data
     const fileEntry = formData.find(
       (entry) =>

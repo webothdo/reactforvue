@@ -18,9 +18,10 @@ export const account = sqliteTable("account", {
   name: text().notNull(),
   email: text().notNull(),
   image: text(),
-  createdAt: integer({ mode: "timestamp" })
-    .notNull()
-    .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+  role: text().default("user").notNull(),
+  createdAt: integer({ mode: "timestamp" }).$defaultFn(
+    () => sql`CURRENT_TIMESTAMP`
+  ),
   updatedAt: integer({ mode: "timestamp" })
     .notNull()
     .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
@@ -61,14 +62,15 @@ export const tool = sqliteTable(
     description: text(),
     faviconUrl: text(),
     content: text(),
+    tagline: text(),
     isOpenSource: integer({ mode: "boolean" }).default(true).notNull(),
     isFeatured: integer({ mode: "boolean" }).default(false).notNull(),
     submitterName: text(),
     submitterEmail: text(),
     pageViews: integer().default(0),
-    createdAt: integer({ mode: "timestamp" })
-      .notNull()
-      .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(
+      () => sql`CURRENT_TIMESTAMP`
+    ),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
       .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
@@ -98,9 +100,9 @@ export const alternative = sqliteTable(
     faviconUrl: text(),
     isFeatured: integer({ mode: "boolean" }).default(false).notNull(),
     isOpenSource: integer({ mode: "boolean" }).default(true).notNull(),
-    createdAt: integer({ mode: "timestamp" })
-      .notNull()
-      .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(
+      () => sql`CURRENT_TIMESTAMP`
+    ),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
       .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
@@ -136,9 +138,9 @@ export const like = sqliteTable(
     id: text()
       .primaryKey()
       .$defaultFn(() => nanoid()),
-    createdAt: integer({ mode: "timestamp" })
-      .notNull()
-      .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(
+      () => sql`CURRENT_TIMESTAMP`
+    ),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
       .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
@@ -166,9 +168,9 @@ export const image = sqliteTable(
     originalName: text(),
     size: integer(),
     mimeType: text(),
-    createdAt: integer({ mode: "timestamp" })
-      .notNull()
-      .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(
+      () => sql`CURRENT_TIMESTAMP`
+    ),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
       .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),

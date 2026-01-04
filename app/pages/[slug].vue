@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button";
 const route = useRoute();
 const alternative = ref({});
 
-const { data, error, status } = await useFetch("/api/get-tool", {
+const { data, error, status } = await useFetch("/api/tools/slug/:slug/get", {
   params: {
     slug: route.params.slug,
   },
