@@ -7,6 +7,6 @@ definePageMeta({
 
 <template>
   <div class="flex justify-center">
-    <SignUp sign-in-url="/sign-in" />
+    <SignUp path="/sign-up" sign-in-url="/sign-in" />
   </div>
 </template>
