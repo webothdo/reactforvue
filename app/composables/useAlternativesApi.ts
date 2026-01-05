@@ -61,10 +61,31 @@ export function useAlternativesApi() {
     return await useFetch(`/api/alternatives?${params.toString()}`);
   };
 
+  /**
+   * Get public alternatives with pagination and search
+   * @param {Object} params - Query parameters
+   * @param {number} [params.page=1] - Page number
+   * @param {number} [params.limit=20] - Items per page
+   * @param {string} [params.q] - Search query
+   * @returns {Promise} API response
+   */
+  const getPublicAlternatives = async ({
+    page = 1,
+    limit = 20,
+    q = "",
+  }: { page?: number; limit?: number; q?: string } = {}) => {
+    const params = new URLSearchParams();
+    params.append("page", page.toString());
+    params.append("limit", limit.toString());
+    if (q) params.append("q", q);
+    return await useFetch(`/api/public/alternatives?${params.toString()}`);
+  };
+
   return {
     createAlternative,
     updateAlternative,
     deleteAlternative,
     getAlternatives,
+    getPublicAlternatives,
   };
 }

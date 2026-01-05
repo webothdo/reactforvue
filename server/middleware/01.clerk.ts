@@ -1,15 +1,16 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nuxt/server";
+import { clerkMiddleware } from "@clerk/nuxt/server";
 
 export default clerkMiddleware(async (event) => {
   const { isAuthenticated, userId } = event.context.auth();
-  const isProtectedRoute = createRouteMatcher([
-    "/api/alternatives(.*)",
-    "/api/auth(.*)",
-    "/api/categories(.*)",
-    "/api/images(.*)",
-    "/api/media(.*)",
-    "/api/tools(.*)",
-  ]);
+  const isProtectedRoute = (event: any) =>
+    [
+      "/api/alternatives",
+      "/api/auth",
+      "/api/categories",
+      "/api/images",
+      "/api/media",
+      "/api/tools",
+    ].some((path) => event.path.includes(path));
 
   // Check if the user is not signed in
   // and is trying to access a protected route. If so, throw a 401 error.
@@ -20,13 +21,13 @@ export default clerkMiddleware(async (event) => {
     });
   }
 
-  if (!userId) {
+  if (!userId && isProtectedRoute(event)) {
     throw createError({ statusCode: 401, message: "Unauthorized" });
   }
 
-  const account = await getAccountByUserId(userId);
+  const account = await getAccountByUserId(userId!);
 
-  if (!account || account.role !== "admin") {
+  if ((!account || account.role !== "admin") && isProtectedRoute(event)) {
     throw createError({
       statusCode: 403,
       message: "Forbidden: Admin access required",
