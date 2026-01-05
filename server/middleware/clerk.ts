@@ -10,11 +10,13 @@ export default clerkMiddleware(async (event) => {
       "/api/images",
       "/api/media",
       "/api/tools",
+      "/admin",
     ].some((path) => event.path.includes(path));
 
   // Check if the user is not signed in
   // and is trying to access a protected route. If so, throw a 401 error.
   if (!isAuthenticated && isProtectedRoute(event)) {
+    console.log("First check", userId);
     throw createError({
       statusCode: 401,
       statusMessage: "Unauthorized: User not signed in",
@@ -22,6 +24,7 @@ export default clerkMiddleware(async (event) => {
   }
 
   if (!userId && isProtectedRoute(event)) {
+    console.log("Second Check");
     throw createError({ statusCode: 401, message: "Unauthorized" });
   }
 
