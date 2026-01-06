@@ -3,7 +3,6 @@ import { AccountService } from "../lib/services/account.service";
 
 export default clerkMiddleware(async (event) => {
   const { isAuthenticated, userId } = event.context.auth();
-  const user = await clerkClient(event).users.getUser(userId!);
   const isAdminRoute = (event: any) =>
     [
       "/api/alternatives",
@@ -32,19 +31,25 @@ export default clerkMiddleware(async (event) => {
   //   if (data.value?.data?.role !== "admin") {
   //     return navigateTo("/");
   //   }
-
+  // TODO: still redirecting anyhow
   // Check if the user is not signed in
   // and is trying to access a protected route. If so, throw a 401 error.
   if (!isAuthenticated && isProtectedRoute(event)) {
     throw createError({
       statusCode: 401,
-      statusMessage: "Unauthorized: User not signed in",
+      statusMessage: "Unauthorized: User is not signed in",
     });
   }
+  let user;
 
-  let account = await getAccountByUserId(userId!);
+  if (userId) {
+    user = await clerkClient(event).users.getUser(userId!);
+  }
+
+  let account = userId ? await getAccountByUserId(userId) : null;
 
   if (!account && isProtectedRoute(event)) {
+    if (!user) return;
     await AccountService.create({
       userId: userId!,
       email: user.primaryEmailAddress?.emailAddress!,
@@ -56,7 +61,7 @@ export default clerkMiddleware(async (event) => {
     account = await getAccountByUserId(userId!);
   }
 
-  if (account.role !== "admin" && isAdminRoute(event)) {
+  if (isAdminRoute(event) && account?.role !== "admin") {
     throw createError({
       statusCode: 403,
       statusMessage: "Forbidden: Admin access required",

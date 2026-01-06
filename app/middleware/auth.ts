@@ -1,11 +1,23 @@
-export default defineNuxtRouteMiddleware((to) => {
+export default defineNuxtRouteMiddleware(async (to) => {
   const { isSignedIn, isLoaded } = useAuth();
 
-  // If Clerk is not loaded yet, returning undefined lets the navigation proceed
-  // But typically you might want to wait or show a loading state
-  // ideally useAuth() handles this reactivity
+  // Wait for Clerk to load before checking auth
+  if (!isLoaded.value) {
+    await new Promise<void>((resolve) => {
+      const unwatch = watch(
+        isLoaded,
+        (loaded) => {
+          if (loaded) {
+            unwatch();
+            resolve();
+          }
+        },
+        { immediate: true }
+      );
+    });
+  }
 
-  if (isLoaded.value && !isSignedIn.value) {
+  if (!isSignedIn.value) {
     return navigateTo("/sign-in");
   }
 });
