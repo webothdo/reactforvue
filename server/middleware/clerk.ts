@@ -1,11 +1,12 @@
-import { clerkMiddleware } from "@clerk/nuxt/server";
+import { clerkClient, clerkMiddleware } from "@clerk/nuxt/server";
+import { AccountService } from "../lib/services/account.service";
 
 export default clerkMiddleware(async (event) => {
   const { isAuthenticated, userId } = event.context.auth();
-  const isProtectedRoute = (event: any) =>
+  const user = await clerkClient(event).users.getUser(userId!);
+  const isAdminRoute = (event: any) =>
     [
       "/api/alternatives",
-      "/api/auth",
       "/api/categories",
       "/api/images",
       "/api/media",
@@ -13,27 +14,52 @@ export default clerkMiddleware(async (event) => {
       "/admin",
     ].some((path) => event.path.includes(path));
 
+  const isProtectedRoute = (event: any) =>
+    [
+      "/api/auth",
+      "/profile",
+      "/api/alternatives",
+      "/api/categories",
+      "/api/images",
+      "/api/media",
+      "/api/tools",
+      "/admin",
+    ].some((path) => event.path.includes(path));
+
+  //   const { data } = await useFetch("/api/auth/sync", { method: "POST" });
+  //   console.log(data);
+  //   // If the role is not admin, redirect to the homepage
+  //   if (data.value?.data?.role !== "admin") {
+  //     return navigateTo("/");
+  //   }
+
   // Check if the user is not signed in
   // and is trying to access a protected route. If so, throw a 401 error.
   if (!isAuthenticated && isProtectedRoute(event)) {
-    console.log("First check", userId);
     throw createError({
       statusCode: 401,
       statusMessage: "Unauthorized: User not signed in",
     });
   }
 
-  if (!userId && isProtectedRoute(event)) {
-    console.log("Second Check");
-    throw createError({ statusCode: 401, message: "Unauthorized" });
+  let account = await getAccountByUserId(userId!);
+
+  if (!account && isProtectedRoute(event)) {
+    await AccountService.create({
+      userId: userId!,
+      email: user.primaryEmailAddress?.emailAddress!,
+      name:
+        user.fullName ||
+        user.username ||
+        user.primaryEmailAddress?.emailAddress!,
+    });
+    account = await getAccountByUserId(userId!);
   }
 
-  const account = await getAccountByUserId(userId!);
-
-  if ((!account || account.role !== "admin") && isProtectedRoute(event)) {
+  if (account.role !== "admin" && isAdminRoute(event)) {
     throw createError({
       statusCode: 403,
-      message: "Forbidden: Admin access required",
+      statusMessage: "Forbidden: Admin access required",
     });
   }
 });
