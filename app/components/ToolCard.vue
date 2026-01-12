@@ -31,7 +31,7 @@ const formatNumber = (num?: number) => {
 
 <template>
   <NuxtLink
-    :to="tool.slug"
+    :to="`/t/${tool.slug}`"
     class="group relative flex flex-col justify-between rounded-xl border border-zinc-800 bg-zinc-900/50 p-6 transition-all hover:border-zinc-700 hover:bg-zinc-900/80 hover:shadow-lg hover:shadow-primary/5"
   >
     <div class="mb-4 flex items-center justify-between">

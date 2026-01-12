@@ -10,19 +10,16 @@ export default clerkMiddleware(async (event) => {
       "/api/images",
       "/api/media",
       "/api/tools",
-      "/admin",
     ].some((path) => event.path.includes(path));
 
   const isProtectedRoute = (event: any) =>
     [
       "/api/auth",
-      "/profile",
       "/api/alternatives",
       "/api/categories",
       "/api/images",
       "/api/media",
       "/api/tools",
-      "/admin",
     ].some((path) => event.path.includes(path));
 
   //   const { data } = await useFetch("/api/auth/sync", { method: "POST" });
@@ -40,31 +37,31 @@ export default clerkMiddleware(async (event) => {
       statusMessage: "Unauthorized: User is not signed in",
     });
   }
-  let user;
+  // let user;
 
-  if (userId) {
-    user = await clerkClient(event).users.getUser(userId!);
-  }
+  // if (userId) {
+  //   user = await clerkClient(event).users.getUser(userId!);
+  // }
 
-  let account = userId ? await getAccountByUserId(userId) : null;
+  // let account = userId ? await getAccountByUserId(userId) : null;
 
-  if (!account && isProtectedRoute(event)) {
-    if (!user) return;
-    await AccountService.create({
-      userId: userId!,
-      email: user.primaryEmailAddress?.emailAddress!,
-      name:
-        user.fullName ||
-        user.username ||
-        user.primaryEmailAddress?.emailAddress!,
-    });
-    account = await getAccountByUserId(userId!);
-  }
+  // if (!account && isProtectedRoute(event)) {
+  //   if (!user) return;
+  //   await AccountService.create({
+  //     userId: userId!,
+  //     email: user.primaryEmailAddress?.emailAddress!,
+  //     name:
+  //       user.fullName ||
+  //       user.username ||
+  //       user.primaryEmailAddress?.emailAddress!,
+  //   });
+  //   account = await getAccountByUserId(userId!);
+  // }
 
-  if (isAdminRoute(event) && account?.role !== "admin") {
-    throw createError({
-      statusCode: 403,
-      statusMessage: "Forbidden: Admin access required",
-    });
-  }
+  // if (isAdminRoute(event) && account?.role !== "admin") {
+  //   throw createError({
+  //     statusCode: 403,
+  //     statusMessage: "Forbidden: Admin access required",
+  //   });
+  // }
 });

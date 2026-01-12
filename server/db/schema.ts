@@ -1,4 +1,3 @@
-import { sql, SQL } from "drizzle-orm";
 import {
   sqliteTable,
   text,
@@ -19,12 +18,10 @@ export const account = sqliteTable("account", {
   email: text().notNull(),
   image: text(),
   role: text().default("user").notNull(),
-  createdAt: integer({ mode: "timestamp" }).$defaultFn(
-    () => sql`CURRENT_TIMESTAMP`
-  ),
+  createdAt: integer({ mode: "timestamp" }).$defaultFn(() => new Date()),
   updatedAt: integer({ mode: "timestamp" })
     .notNull()
-    .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+    .$onUpdateFn(() => new Date()),
 });
 
 export const category = sqliteTable(
@@ -38,10 +35,10 @@ export const category = sqliteTable(
     label: text(),
     createdAt: integer({ mode: "timestamp" })
       .notNull()
-      .$defaultFn(() => sql`CURRENT_TIMESTAMP`),
+      .$defaultFn(() => new Date()),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
-      .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+      .$onUpdateFn(() => new Date()),
   },
   (table) => [
     index("Category_slug_idx").on(table.slug),
@@ -68,12 +65,10 @@ export const tool = sqliteTable(
     submitterName: text(),
     submitterEmail: text(),
     pageViews: integer().default(0),
-    createdAt: integer({ mode: "timestamp" }).$defaultFn(
-      () => sql`CURRENT_TIMESTAMP`
-    ),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(() => new Date()),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
-      .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+      .$onUpdateFn(() => new Date()),
     //Relations
     categoryId: text().references(() => category.id, { onDelete: "set null" }),
     accountId: text().references(() => account.id, { onDelete: "set null" }),
@@ -100,12 +95,10 @@ export const alternative = sqliteTable(
     faviconUrl: text(),
     isFeatured: integer({ mode: "boolean" }).default(false).notNull(),
     isOpenSource: integer({ mode: "boolean" }).default(true).notNull(),
-    createdAt: integer({ mode: "timestamp" }).$defaultFn(
-      () => sql`CURRENT_TIMESTAMP`
-    ),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(() => new Date()),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
-      .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+      .$onUpdateFn(() => new Date()),
   },
   (table) => [
     index("Alternative_slug_idx").on(table.slug),
@@ -138,12 +131,10 @@ export const like = sqliteTable(
     id: text()
       .primaryKey()
       .$defaultFn(() => nanoid()),
-    createdAt: integer({ mode: "timestamp" }).$defaultFn(
-      () => sql`CURRENT_TIMESTAMP`
-    ),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(() => new Date()),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
-      .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+      .$onUpdateFn(() => new Date()),
     //Relations
     accountId: text().references(() => account.id, { onDelete: "cascade" }),
     toolId: text().references(() => tool.id, { onDelete: "cascade" }),
@@ -168,12 +159,10 @@ export const image = sqliteTable(
     originalName: text(),
     size: integer(),
     mimeType: text(),
-    createdAt: integer({ mode: "timestamp" }).$defaultFn(
-      () => sql`CURRENT_TIMESTAMP`
-    ),
+    createdAt: integer({ mode: "timestamp" }).$defaultFn(() => new Date()),
     updatedAt: integer({ mode: "timestamp" })
       .notNull()
-      .$onUpdateFn(() => sql`CURRENT_TIMESTAMP`),
+      .$onUpdateFn(() => new Date()),
   },
   (table) => [
     index("Image_url_idx").on(table.url),
