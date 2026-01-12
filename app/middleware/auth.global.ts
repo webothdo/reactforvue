@@ -51,17 +51,17 @@ export default defineNuxtRouteMiddleware(async (to) => {
     return navigateTo("/sign-in");
   }
 
-  // Check admin role for admin pages
-  if (isSignedIn.value && isAdminPage(to)) {
-    try {
-      const data = await $fetch("/api/auth/sync", { method: "POST" });
-      console.log(data);
-      // if (data?.role !== "admin") {
-      //   return navigateTo("/");
-      // }
-    } catch (e) {
-      console.error("Failed to verify admin status", e);
-      return navigateTo("/");
-    }
-  }
+  // // Check admin role for admin pages
+  // if (isSignedIn.value && isAdminPage(to)) {
+  //   try {
+  //     const data = await $fetch("/api/auth/sync", { method: "POST" });
+  //     console.log(data);
+  //     // if (data?.role !== "admin") {
+  //     //   return navigateTo("/");
+  //     // }
+  //   } catch (e) {
+  //     console.error("Failed to verify admin status", e);
+  //     return navigateTo("/");
+  //   }
+  // }
 });
