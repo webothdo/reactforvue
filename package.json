@@ -14,7 +14,7 @@
     "db:migrate": "drizzle-kit migrate"
   },
   "dependencies": {
-    "@ai-sdk/vue": "^3.0.3",
+    "@ai-sdk/vue": "^3.0.33",
     "@clerk/nuxt": "^1.13.10",
     "@libsql/client": "^0.15.15",
     "@mendable/firecrawl-js": "^4.10.0",
@@ -29,7 +29,7 @@
     "@tiptap/vue-3": "^2.27.1",
     "@vee-validate/zod": "^4.15.1",
     "@vueuse/core": "^14.1.0",
-    "ai": "^6.0.3",
+    "ai": "^6.0.33",
     "better-sqlite3": "^12.5.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",

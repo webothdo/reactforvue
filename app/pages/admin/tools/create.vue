@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { experimental_useObject } from "@ai-sdk/vue";
+import { experimental_useObject as useObject } from "@ai-sdk/vue";
 import {
   LucideSparkles,
   LucideImage,
@@ -76,12 +76,24 @@ const {
   submit,
   stop,
   isLoading: isGeneratingContent,
-} = experimental_useObject({
+} = useObject({
   api: "/api/tools/generate",
   schema: z.object({
-    tagline: z.string(),
-    description: z.string(),
-    content: z.string(),
+    tagline: z
+      .string()
+      .describe(
+        "A compelling tagline (max 60 char) that captures the tool's unique value proposition. Avoid tool name, focus on benefits."
+      ),
+    description: z
+      .string()
+      .describe(
+        "A consice meta description (max 160 chars) highlighting key features and benefits. Use active voice, and avoid tool name"
+      ),
+    content: z
+      .string()
+      .describe(
+        "A detailed and engaging longer description with key benefits (up to 1000 chars). Should be markdown formatted, should start with paragraph, and not use headings. Highlight important points with bold text. Make sure the lists use correct Markdown syntax and are properly formatted. End with a brief conclusion paragraph."
+      ),
   }),
   onFinish(event) {
     if (event.error) {
@@ -94,6 +106,7 @@ const {
     }
   },
   onError(error) {
+    console.log(error);
     toast.error("Failed to generate content: " + error.message);
   },
 });

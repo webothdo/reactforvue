@@ -12,6 +12,7 @@ export default defineLazyEventHandler(async () => {
 
   const openrouter = createOpenRouter({
     apiKey: apiKey,
+    compatibility: "strict",
   });
 
   const firecrawl = new Firecrawl({ apiKey: firecrawlApiKey });
@@ -29,14 +30,14 @@ export default defineLazyEventHandler(async () => {
     // Scrape website content using Firecrawl
     let scrapedData;
     try {
-      scrapedData = await firecrawl.scrape(url, {
-        formats: ["markdown"],
-        onlyMainContent: true,
-        excludeTags: ["img", "video", "iframe"],
-      });
-
+      // scrapedData = await firecrawl.scrape(url, {
+      //   formats: ["markdown"],
+      //   onlyMainContent: true,
+      //   excludeTags: ["img", "video", "iframe"],
+      // });
+      // console.log(scrapedData);
       const result = streamText({
-        model: openrouter("xiaomi/mimo-v2-flash:free"),
+        model: openrouter("mistralai/devstral-2512:free"),
         system: `
       You are an expert content creator specializing in reactjs and vuejs alternatives.
       Your task is to generate high quality, engaging content to display on a directory website.
@@ -44,9 +45,9 @@ export default defineLazyEventHandler(async () => {
       `,
         prompt: `
       Provide me details  for the following data: 
-      Title: ${scrapedData.metadata?.title || ""}
-      Description: ${scrapedData.metadata?.description || ""}
-      Content: ${scrapedData.markdown || ""}
+      Title: vue element
+      Description: everything about vue elements
+      Content: all about vue elements
       `,
         output: Output.object({
           schema: z.object({
