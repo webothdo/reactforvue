@@ -6,6 +6,7 @@ import {
   LucideGlobe,
   LucideSave,
   LucideLoader2,
+  LucidePlus,
 } from "lucide-vue-next";
 import { ref, watch } from "vue";
 import { toast } from "vue-sonner";
@@ -32,6 +33,7 @@ import {
   CardHeader,
   CardTitle,
 } from "~/components/ui/card";
+import AlternativeForm from "~/components/AlternativeForm.vue";
 
 // Types
 import type { CreateToolInput } from "~~/server/types";
@@ -51,12 +53,22 @@ const form = ref<CreateToolInput>({
   screenshotUrl: "",
   faviconUrl: "",
   categoryId: undefined,
+  alternativeId: undefined,
   isOpenSource: true,
   isFeatured: false,
 });
 
 // Fetch Categories
 const { data: categories } = await useFetch("/api/categories");
+
+// Fetch Alternatives
+const { data: alternativesData, refresh: refreshAlternatives } =
+  await useFetch("/api/alternatives");
+const alternatives = computed(() => alternativesData.value?.data || []);
+const selectedAlternative = ref<string | undefined>(undefined);
+const alternativeFormRef = ref<InstanceType<typeof AlternativeForm> | null>(
+  null
+);
 
 // AI Content Generation
 const {
@@ -96,10 +108,29 @@ watch(
   }
 );
 
+// Sync selected alternative with form
+watch(selectedAlternative, (newValue) => {
+  form.value.alternativeId = newValue;
+});
+
+// Handle alternative created event
+const onAlternativeCreated = (newAlternative: any) => {
+  refreshAlternatives();
+  if (newAlternative?.id) {
+    selectedAlternative.value = newAlternative.id;
+  }
+};
+
 // Actions
 const generateContent = () => {
-  if (!form.value.websiteUrl) return toast.error("Please enter a website URL");
-  submit({ url: form.value.websiteUrl });
+  try {
+    if (!form.value.websiteUrl)
+      return toast.error("Please enter a website URL");
+    submit({ url: form.value.websiteUrl });
+  } catch (error: any) {
+    toast.error("Failed to generate content: " + error.message);
+    console.log(error);
+  }
 };
 
 const generateFavicon = async () => {
@@ -165,6 +196,7 @@ const saveTool = async () => {
     navigateTo("/admin/tools");
   } catch (error: any) {
     toast.error("Failed to create tool: " + error.message);
+    console.log(error);
   } finally {
     isSubmitting.value = false;
   }
@@ -257,6 +289,40 @@ const saveTool = async () => {
                 </SelectItem>
               </SelectContent>
             </Select>
+          </div>
+
+          <!-- Alternative Selection -->
+          <div class="space-y-2">
+            <Label for="alternative">Alternative To</Label>
+            <div class="flex gap-3">
+              <div class="flex-1">
+                <Select v-model="selectedAlternative">
+                  <SelectTrigger>
+                    <SelectValue
+                      placeholder="Select an alternative (optional)"
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem
+                      v-for="alternative in alternatives"
+                      :key="alternative.id"
+                      :value="alternative.id"
+                      :text-value="alternative.name"
+                    >
+                      {{ alternative.name }}
+                    </SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <Button
+                variant="outline"
+                type="button"
+                @click="alternativeFormRef?.openModal()"
+              >
+                <LucidePlus class="mr-2 h-4 w-4" />
+                Create Alternative
+              </Button>
+            </div>
           </div>
 
           <div class="flex gap-8 pt-2">
@@ -418,4 +484,10 @@ const saveTool = async () => {
       </div>
     </div>
   </div>
+
+  <!-- Alternative Form Modal -->
+  <AlternativeForm
+    ref="alternativeFormRef"
+    @alternativeCreated="onAlternativeCreated"
+  />
 </template>
