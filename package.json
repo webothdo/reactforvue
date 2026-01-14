@@ -52,6 +52,7 @@
     "vue-input-otp": "^0.3.2",
     "vue-router": "^4.6.4",
     "vue-sonner": "^2.0.9",
+    "workflow": "^4.0.1-beta.46",
     "zod": "^4.2.1"
   },
   "devDependencies": {

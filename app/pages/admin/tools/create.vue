@@ -135,11 +135,16 @@ const onAlternativeCreated = (newAlternative: any) => {
 };
 
 // Actions
-const generateContent = () => {
+const generateContent = async () => {
   try {
     if (!form.value.websiteUrl)
       return toast.error("Please enter a website URL");
-    submit({ url: form.value.websiteUrl });
+    // submit({ url: form.value.websiteUrl });
+    const res = await $fetch("/api/tools/generate", {
+      method: "POST",
+      body: { url: form.value.websiteUrl },
+    });
+    console.log(res);
   } catch (error: any) {
     toast.error("Failed to generate content: " + error.message);
     console.log(error);
