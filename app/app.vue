@@ -6,6 +6,7 @@ import { Toaster } from "@/components/ui/sonner";
 <template>
   <div>
     <NuxtRouteAnnouncer />
+    <NuxtLoadingIndicator />
     <NuxtLayout>
       <div class="flex-1">
         <NuxtPage />

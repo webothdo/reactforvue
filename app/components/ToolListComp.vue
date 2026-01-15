@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button";
 import ToolCard from "@/components/ToolCard.vue";
 
-const { getPublicAlternatives } = useAlternativesApi();
+const { getPublicTools } = useToolsApi();
 const route = useRoute();
 
 const page = computed(() => Number(route.query.page) || 1);
@@ -12,7 +12,7 @@ const {
   data: tools,
   error,
   status,
-} = await getPublicAlternatives({
+} = await getPublicTools({
   page: page.value,
   limit: pageSize.value,
 });
