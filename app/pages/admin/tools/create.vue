@@ -42,6 +42,7 @@ import type { CreateToolInput } from "~~/server/types";
 const isLoadingFavicon = ref(false);
 const isLoadingScreenshot = ref(false);
 const isSubmitting = ref(false);
+const isGeneratingContentWithWorkflow = ref(false);
 
 const form = ref<CreateToolInput>({
   name: "",
@@ -99,10 +100,6 @@ const {
     if (event.error) {
       toast.error(event.error.message);
     } else if (event.object) {
-      form.value.tagline = event.object.tagline;
-      form.value.description = event.object.description;
-      form.value.content = event.object.content;
-      toast.success("Content generated successfully");
     }
   },
   onError(error) {
@@ -136,6 +133,7 @@ const onAlternativeCreated = (newAlternative: any) => {
 
 // Actions
 const generateContent = async () => {
+  isGeneratingContentWithWorkflow.value = true;
   try {
     if (!form.value.websiteUrl)
       return toast.error("Please enter a website URL");
@@ -144,11 +142,16 @@ const generateContent = async () => {
       method: "POST",
       body: { url: form.value.websiteUrl },
     });
+    form.value.tagline = res.content.tagline;
+    form.value.description = res.content.description;
+    form.value.content = res.content.content;
+    toast.success("Content generated successfully");
     console.log(res);
   } catch (error: any) {
     toast.error("Failed to generate content: " + error.message);
     console.log(error);
   }
+  isGeneratingContentWithWorkflow.value = false;
 };
 
 const generateFavicon = async () => {
@@ -260,22 +263,28 @@ const saveTool = async () => {
                 id="url"
                 v-model="form.websiteUrl"
                 placeholder="https://example.com"
-                :disabled="isGeneratingContent"
+                :disabled="isGeneratingContentWithWorkflow"
               />
             </div>
 
             <Button
               variant="secondary"
-              @click="isGeneratingContent ? stop() : generateContent()"
+              @click="
+                isGeneratingContentWithWorkflow ? stop() : generateContent()
+              "
               :disabled="!form.websiteUrl"
               class="min-w-[180px]"
             >
               <LucideLoader2
-                v-if="isGeneratingContent"
+                v-if="isGeneratingContentWithWorkflow"
                 class="mr-2 h-4 w-4 animate-spin"
               />
               <LucideSparkles v-else class="mr-2 h-4 w-4" />
-              {{ isGeneratingContent ? "Stop Generating" : "Generate Content" }}
+              {{
+                isGeneratingContentWithWorkflow
+                  ? "Stop Generating"
+                  : "Generate Content"
+              }}
             </Button>
           </div>
 

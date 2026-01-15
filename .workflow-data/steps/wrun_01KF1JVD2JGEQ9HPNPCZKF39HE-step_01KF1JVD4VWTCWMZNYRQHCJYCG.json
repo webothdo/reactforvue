@@ -1,0 +1,70 @@
+{
+  "runId": "wrun_01KF1JVD2JGEQ9HPNPCZKF39HE",
+  "stepId": "step_01KF1JVD4VWTCWMZNYRQHCJYCG",
+  "stepName": "step//server/workflows/steps/generateSteps.ts//scrapeWebsite",
+  "status": "completed",
+  "input": [
+    {
+      "args": 1,
+      "closureVars": -1,
+      "thisVal": -1
+    },
+    [
+      2
+    ],
+    "https://www.ai-elements-vue.com"
+  ],
+  "attempt": 1,
+  "startedAt": "2026-01-15T19:41:51.218Z",
+  "createdAt": "2026-01-15T19:41:51.156Z",
+  "updatedAt": "2026-01-15T19:41:59.076Z",
+  "output": [
+    {
+      "scrapedData": 1
+    },
+    {
+      "markdown": 2,
+      "metadata": 3
+    },
+    "# AI Elements Vue\n\nAI Elements Vue is a component library built on top of shadcn-vue to help you build AI-native applications faster.[Documentation](https://www.ai-elements-vue.com/overview/introduction) [GitHub](https://github.com/vuepont/ai-elements-vue)\n\n[**Shadcn Vue**\\\\\n\\\\\nOur AI Elements are built on Shadcn Vue's foundation, leveraging its design system to create specialized AI-native components with modern UI patterns.](https://www.shadcn-vue.com/)\n\n[**Tailwind CSS**\\\\\n\\\\\nTailwind CSS powers our styling system, enabling rapid development of AI-focused interfaces with utility-first classes for customizable, maintainable components.](https://tailwindcss.com/)\n\n[**TypeScript**\\\\\n\\\\\nTypeScript provides type safety and developer experience for our AI Elements library, ensuring reliable APIs and better IntelliSense support.](https://www.typescriptlang.org/)",
+    {
+      "ogImage": 4,
+      "twitter:card": 5,
+      "title": 6,
+      "description": 7,
+      "og:image": 4,
+      "viewport": 8,
+      "ogDescription": 7,
+      "ogTitle": 9,
+      "og:title": 9,
+      "og:description": 7,
+      "scrapeId": 10,
+      "sourceURL": 11,
+      "url": 12,
+      "statusCode": 13,
+      "contentType": 14,
+      "proxyUsed": 15,
+      "cacheState": 16,
+      "cachedAt": 17,
+      "creditsUsed": 18,
+      "concurrencyLimited": 19
+    },
+    "/hero.png",
+    "summary_large_image",
+    "Home - AI Elements Vue",
+    "",
+    "width=device-width, initial-scale=1",
+    "Home",
+    "019bc32d-d00f-7022-9710-d29645c47149",
+    "https://www.ai-elements-vue.com",
+    "https://www.ai-elements-vue.com/",
+    200,
+    "text/html; charset=utf-8",
+    "basic",
+    "hit",
+    "2026-01-15T07:06:22.900Z",
+    1,
+    false
+  ],
+  "completedAt": "2026-01-15T19:41:59.076Z"
+}

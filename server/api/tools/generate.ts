@@ -85,7 +85,7 @@ export default defineLazyEventHandler(async () => {
 
       const generatedContent = await start(handleGenerateContent, [url]);
       console.log(generatedContent);
-      return generatedContent;
+      return generatedContent.returnValue;
     } catch (error) {
       console.log(error);
       throw createError({

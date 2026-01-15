@@ -26,9 +26,11 @@ export const scrapeWebsite = async (url: string) => {
   return { scrapedData };
 };
 export const generateContent = async (scrapedData?: {
-  title?: string;
-  description?: string;
-  content?: string;
+  metadata?: {
+    title?: string;
+    description?: string;
+  };
+  markdown?: string;
 }) => {
   "use step";
   const result = await generateText({
@@ -40,9 +42,9 @@ export const generateContent = async (scrapedData?: {
       `,
     prompt: `
       Provide me details  for the following data: 
-      Title: vue element
-      Description: everything about vue elements
-      Content: all about vue elements
+      Title: ${scrapedData?.metadata?.title || ""}
+      Description: ${scrapedData?.metadata?.description || ""}
+      Content: ${scrapedData?.markdown || ""}
       `,
     output: Output.object({
       schema: z.object({

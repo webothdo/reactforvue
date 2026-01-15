@@ -1,0 +1,45 @@
+{
+  "runId": "wrun_01KF1JVD2JGEQ9HPNPCZKF39HE",
+  "stepId": "step_01KF1JVD4VWTCWMZNYRQHCJYCH",
+  "stepName": "step//server/workflows/steps/generateSteps.ts//generateContent",
+  "status": "completed",
+  "input": [
+    {
+      "args": 1,
+      "closureVars": -1,
+      "thisVal": -1
+    },
+    [
+      2
+    ],
+    {
+      "metadata": 3,
+      "markdown": 6
+    },
+    {
+      "title": 4,
+      "description": 5
+    },
+    "Home - AI Elements Vue",
+    "",
+    "# AI Elements Vue\n\nAI Elements Vue is a component library built on top of shadcn-vue to help you build AI-native applications faster.[Documentation](https://www.ai-elements-vue.com/overview/introduction) [GitHub](https://github.com/vuepont/ai-elements-vue)\n\n[**Shadcn Vue**\\\\\n\\\\\nOur AI Elements are built on Shadcn Vue's foundation, leveraging its design system to create specialized AI-native components with modern UI patterns.](https://www.shadcn-vue.com/)\n\n[**Tailwind CSS**\\\\\n\\\\\nTailwind CSS powers our styling system, enabling rapid development of AI-focused interfaces with utility-first classes for customizable, maintainable components.](https://tailwindcss.com/)\n\n[**TypeScript**\\\\\n\\\\\nTypeScript provides type safety and developer experience for our AI Elements library, ensuring reliable APIs and better IntelliSense support.](https://www.typescriptlang.org/)"
+  ],
+  "attempt": 1,
+  "startedAt": "2026-01-15T19:41:59.216Z",
+  "createdAt": "2026-01-15T19:41:59.168Z",
+  "updatedAt": "2026-01-15T19:42:10.049Z",
+  "output": [
+    {
+      "content": 1
+    },
+    {
+      "tagline": 2,
+      "description": 3,
+      "content": 4
+    },
+    "Build AI-native apps faster with Vue components",
+    "A Vue component library for AI-native apps, built on shadcn-vue, Tailwind CSS, and TypeScript for faster development.",
+    "AI Elements Vue is a specialized component library designed to accelerate the development of AI-native applications. Built on the robust foundation of shadcn-vue, it provides a collection of modern, reusable components tailored for AI-driven interfaces. The library integrates seamlessly with Tailwind CSS, offering a utility-first approach to styling that ensures both flexibility and maintainability. With TypeScript support, developers benefit from enhanced type safety and improved IntelliSense, making the development process more efficient and reliable.\n\n**Key Features:**\n- **Built on shadcn-vue**: Leverages a proven design system to deliver consistent, high-quality components.\n- **Tailwind CSS Integration**: Enables rapid UI development with utility-first classes for customizable styling.\n- **TypeScript Support**: Ensures type safety and better developer tooling for a smoother coding experience.\n\nThis library is ideal for developers looking to create AI-focused applications without compromising on design or functionality. By combining the strengths of shadcn-vue, Tailwind CSS, and TypeScript, AI Elements Vue provides a solid foundation for building innovative, AI-native interfaces efficiently."
+  ],
+  "completedAt": "2026-01-15T19:42:10.049Z"
+}

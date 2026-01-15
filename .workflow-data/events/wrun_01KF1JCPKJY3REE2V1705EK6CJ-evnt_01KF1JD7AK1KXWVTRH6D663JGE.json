@@ -1,0 +1,11 @@
+{
+  "eventType": "step_failed",
+  "correlationId": "step_01KF1JCPMGCVBV4A3J0BPQ5BSB",
+  "eventData": {
+    "error": "AI_RetryError: Failed after 3 attempts. Last error: Cannot connect to API: ",
+    "stack": "AI_RetryError: Failed after 3 attempts. Last error: Cannot connect to API: \n    at _retryWithExponentialBackoff (file:///home/overlord/Documents/open%20source/reactforvue/node_modules/ai/dist/index.mjs:2245:13)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)\n    at async fn (file:///home/overlord/Documents/open%20source/reactforvue/node_modules/ai/dist/index.mjs:3787:36)\n    at async file:///home/overlord/Documents/open%20source/reactforvue/node_modules/ai/dist/index.mjs:1974:24\n    at async generateText (file:///home/overlord/Documents/open%20source/reactforvue/node_modules/ai/dist/index.mjs:3655:12)\n    at async generateContent (file:///home/overlord/Documents/open%20source/reactforvue/.nuxt/workflow/steps.mjs:59:18)\n    at async file:///home/overlord/Documents/open%20source/reactforvue/node_modules/@workflow/core/dist/runtime/step-handler.js:179:26\n    at async file:///home/overlord/Documents/open%20source/reactforvue/node_modules/@workflow/core/dist/telemetry.js:78:28\n    at async file:///home/overlord/Documents/open%20source/reactforvue/node_modules/@workflow/core/dist/telemetry.js:49:60\n    at async file:///home/overlord/Documents/open%20source/reactforvue/node_modules/@workflow/core/dist/runtime/step-handler.js:29:12"
+  },
+  "runId": "wrun_01KF1JCPKJY3REE2V1705EK6CJ",
+  "eventId": "evnt_01KF1JD7AK1KXWVTRH6D663JGE",
+  "createdAt": "2026-01-15T19:34:06.419Z"
+}
