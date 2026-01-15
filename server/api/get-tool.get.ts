@@ -7,14 +7,14 @@
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   const slug = query.slug;
-  
-  if (!slug || typeof slug !== 'string') {
+
+  if (!slug || typeof slug !== "string") {
     throw createError({
       statusCode: 400,
       statusMessage: "Slug is required",
     });
   }
-  
+
   // Redirect to the new API endpoint
   return new Response(null, {
     status: 302,

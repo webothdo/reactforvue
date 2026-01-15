@@ -10,7 +10,7 @@ const route = useRoute();
 const alternative = ref({});
 
 const { data, error, status } = await useFetch(
-  `/api/tools/slug/${route.params.slug}`
+  `/api/public/tools/slug/${route.params.slug}`
 );
 
 if (status.value === "error") {
