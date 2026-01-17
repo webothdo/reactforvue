@@ -26,11 +26,6 @@ export default defineNuxtConfig({
       "Discover the best vue alternatives for popular react libraries and tools.",
     defaultLocale: "en",
   },
-  sitemap: {
-    sources: [
-      '/api/__sitemap__/tools',
-    ],
-  },
   vite: {
     plugins: [tailwindcss()],
   },
