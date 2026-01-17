@@ -7,7 +7,6 @@ export default defineNuxtConfig({
   modules: [
     "shadcn-nuxt",
     "@clerk/nuxt",
-    "@nuxtjs/seo",
     "@nuxtjs/color-mode",
     "workflow/nuxt",
   ],
@@ -18,13 +17,6 @@ export default defineNuxtConfig({
   },
   clerk: {
     skipServerMiddleware: true,
-  },
-  site: {
-    url: "https://www.reactforvue.com",
-    name: "React for Vue",
-    description:
-      "Discover the best vue alternatives for popular react libraries and tools.",
-    defaultLocale: "en",
   },
   vite: {
     plugins: [tailwindcss()],
