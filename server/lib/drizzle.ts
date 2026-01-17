@@ -12,12 +12,7 @@ const client = createClient({
   authToken: process.env.DATABASE_AUTH_TOKEN,
 });
 
-// Test the connection on startup
-client
-  .execute("SELECT 1")
-  .then(() => console.log("✅ Connected to database"))
-  .catch((err) => console.error("❌ Database connection error:", err));
-
+// Note: Connection is tested lazily on first query for serverless compatibility
 const db = drizzle(client, { schema });
 
 export { db };
