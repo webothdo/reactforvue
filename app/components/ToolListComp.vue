@@ -2,7 +2,6 @@
 import { Button } from "@/components/ui/button";
 import ToolCard from "@/components/ToolCard.vue";
 
-const { getPublicTools } = useToolsApi();
 const route = useRoute();
 
 const page = computed(() => Number(route.query.page) || 1);
@@ -12,9 +11,13 @@ const {
   data: tools,
   error,
   status,
-} = await getPublicTools({
-  page: page.value,
-  limit: pageSize.value,
+  refresh,
+} = await useFetch(`/api/public/tools`, {
+  query: {
+    page: () => page.value,
+    limit: pageSize.value,
+  },
+  watch: [page],
 });
 
 const totalPages = computed(() => {
