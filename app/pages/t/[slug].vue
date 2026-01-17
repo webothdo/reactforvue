@@ -23,13 +23,6 @@ if (data.value) {
 
 const toolName = computed(() => data.value?.data?.name || "Tool");
 const toolDescription = computed(() => data.value?.data?.description || "");
-
-useSeoMeta({
-  title: `${toolName.value} - React Alternative`,
-  description: toolDescription.value,
-  ogTitle: `${toolName.value} - React Alternative`,
-  ogDescription: toolDescription.value,
-});
 </script>
 
 <template>
