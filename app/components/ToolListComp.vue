@@ -4,8 +4,27 @@ import ToolCard from "@/components/ToolCard.vue";
 
 const route = useRoute();
 
-const page = computed(() => Number(route.query.page) || 1);
+// Robust parsing of the `page` query param (handles arrays, empty, invalid values)
+const page = computed(() => {
+  const raw = route.query.page;
+  // If multiple ?page=... values exist, take the first
+  const value = Array.isArray(raw) ? raw[0] : raw;
+  if (value === undefined || value === null) return 1;
+  const s = String(value).trim();
+  if (s === "") return 1;
+  const n = Number(s);
+  if (Number.isNaN(n)) return 1;
+  // ensure integer >= 1
+  return Math.max(1, Math.floor(n));
+});
+
 const pageSize = ref(12);
+
+// Build a computed query object so useFetch receives plain primitives
+const fetchQuery = computed(() => ({
+  page: page.value,
+  limit: pageSize.value,
+}));
 
 const {
   data: tools,
@@ -13,11 +32,9 @@ const {
   status,
   refresh,
 } = await useFetch(`/api/public/tools`, {
-  query: {
-    page: () => page.value || 1,
-    limit: pageSize.value,
-  },
-  watch: [page],
+  query: fetchQuery,
+  // watch the computed query so requests re-run when page or pageSize change
+  watch: [fetchQuery],
 });
 
 const totalPages = computed(() => {
@@ -65,7 +82,8 @@ if (error.value) {
       class="h-96 w-full flex flex-col items-center justify-center gap-4"
     >
       <p class="text-destructive font-bold text-lg">Something went wrong</p>
-      <Button variant="outline" @click="refreshNuxtData">Try again</Button>
+      <!-- call the refresh returned by useFetch -->
+      <Button variant="outline" @click="refresh">Try again</Button>
     </div>
 
     <div v-else-if="status === 'success'" class="w-full flex flex-col gap-8">
@@ -118,14 +136,10 @@ if (error.value) {
           asChild
         >
           <NuxtLink
-            :to="
-              page !== totalPages
-                ? {
-                    path: '/',
-                    query: { page: nextPage },
-                  }
-                : ''
-            "
+            :to="{
+              path: '/',
+              query: { page: nextPage },
+            }"
           >
             Next
           </NuxtLink>
