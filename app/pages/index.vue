@@ -2,6 +2,15 @@
 import { Button } from "@/components/ui/button";
 import ToolListComp from "@/components/ToolListComp.vue";
 import { LucideSearch } from "lucide-vue-next";
+
+useSeoMeta({
+  title: "React for Vue - Discover Vue alternatives",
+  description:
+    "Discover the best vue alternatives for popular react libraries and tools.",
+  ogTitle: "React for Vue - Discover Vue alternatives",
+  ogDescription:
+    "Discover the best vue alternatives for popular react libraries and tools.",
+});
 </script>
 
 <template>

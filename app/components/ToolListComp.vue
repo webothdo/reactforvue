@@ -14,7 +14,7 @@ const {
   refresh,
 } = await useFetch(`/api/public/tools`, {
   query: {
-    page: () => page.value,
+    page: () => page.value || 1,
     limit: pageSize.value,
   },
   watch: [page],

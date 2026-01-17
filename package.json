@@ -20,6 +20,7 @@
     "@mendable/firecrawl-js": "^4.10.0",
     "@nuxt/content": "3.7.1",
     "@nuxtjs/color-mode": "^4.0.0",
+    "@nuxtjs/seo": "^3.3.0",
     "@openrouter/ai-sdk-provider": "^1.5.4",
     "@tanstack/vue-table": "^8.21.3",
     "@tiptap/extension-placeholder": "^2.27.1",

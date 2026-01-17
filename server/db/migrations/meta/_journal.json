@@ -8,6 +8,13 @@
       "when": 1751069289135,
       "tag": "0000_real_shriek",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "6",
+      "when": 1768652363623,
+      "tag": "0001_curly_lake",
+      "breakpoints": true
     }
   ]
 }
